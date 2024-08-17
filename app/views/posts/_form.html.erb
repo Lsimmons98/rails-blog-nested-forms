@@ -2,29 +2,33 @@
   <% if @post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
       <ul>
-      <% @post.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br>
+    <%= f.label :name, "Name"%><br>
     <%= f.text_field :name %><br>
     <%= f.label :content %><br>
     <%= f.text_area :content %><br>
-    Tags:
-  </div>
 
-  <div class="field">
-    <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name %><br>
+    <div class="field">
+      <%= f.label :tag_ids, "Tags" %><br>
+      <%= f.collection_check_boxes :tag_ids, Tag.all, :id, :name %><br>
+
+      <h3>Or create a new tag:</h3>
+      <%= f.fields_for :tags do |tag_fields| %>
+        <%= tag_fields.label :name, "Tag Name" %>
+        <%= tag_fields.text_field :name %><br>
+      <% end %>
+    </div>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create Post"%>
   </div>
-
 <% end %>
